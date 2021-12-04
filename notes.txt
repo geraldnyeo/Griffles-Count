@@ -1,0 +1,7 @@
+This is a file with a bunch of notes.
+Honestly this should go in the readme.
+But uhhh I'm just putting down some stuff to remember.
+
+These resources will help save time so you don't have to figure out why the JSX won't work.
+https://stackoverflow.com/questions/43931538/how-to-load-es6-react-babel-code-in-html-with-cdn
+https://babeljs.io/docs/en/babel-standalone/
