@@ -13,6 +13,7 @@ class Box extends React.Component {
         this.state = {
             guess: "",
             email: "",
+            status: "",
         }
 
         this.handleChange = this.handleChange.bind(this);
@@ -33,13 +34,14 @@ class Box extends React.Component {
         this.setState({
             guess: "",
             email: "",
+            status: (status == 1) ? "Success! You answer has been submitted." : "Oops! Something went wrong. "
         });
     }
 
+    // fake API to simulate lag times in data fetching
     async setStatus(guess, email) {
-        // fake API to simulate lag times in data fetching
         return new Promise(res => {setTimeout(() => {
-                res("success");
+                res(1);
             }, 2000)
         });
     }
@@ -63,6 +65,8 @@ class Box extends React.Component {
                     <input id="email" className="rounded-lg border border-black px-1" name="email" placeholder="example@xyz.com" value={this.state.email} onChange={this.handleChange}></input>
                 </div>
                 <button id="submit" className="rounded-full bg-green-500 px-2 py-1 text-white" onClick={this.handleClick}>Submit Guess!</button>
+                
+                <p id="success" className="bg-green-200 p-2">{this.state.status}</p>
             </div>
         )
     }
@@ -86,13 +90,35 @@ const Griffles = props => {
 class App extends React.Component {
     constructor(props) {
         super(props);
+
+        this.state = {
+            first: true,
+            guess: "",
+            email: "",
+        }
+    }
+
+    async componentDidMount() {
+        this.setState(await this.getStatus);
+    }
+
+    // fake API to simulate lag times in data fetching
+    async getStatus() {
+        return new Promise(res => {setTimeout(() => {
+                res({
+                    first: false,
+                    guess: "5",
+                    email: "xyz@abc.com"
+                });
+            }, 2000)
+        });
     }
 
     render() {
         return (
             <div id="app" className="relative">
-                <Griffles first={true} />
-                <Box first={true} />
+                <Griffles first={this.state.first} firstGuess={this.state.guess} firstEmail={this.state.email} />
+                <Box first={this.state.first} />
             </div>
         )
     }
